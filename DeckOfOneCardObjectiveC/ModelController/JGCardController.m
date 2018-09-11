@@ -23,7 +23,7 @@
 
 static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/new/draw/";
 
-- (void)drawCards:(NSInteger)numberOfCards completion:(void (^)(JGCard * _Nullable))completion {
+- (void)drawCards:(NSInteger)numberOfCards completion:(void (^)(BOOL))completion {
     
     NSString *cardCount =[NSString stringWithFormat:@"%ld", numberOfCards];
     
@@ -66,12 +66,16 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
                 [[JGCardController shared].cards addObject:card];
                 
             }
-            
+        completion(YES);
         }
     }] resume];
 }
 
-- (void)fetchCardImage:(JGCard *)card fetchImageAction:(FetchImageCompletion)completion {
+- (void)fetchCardImage:(JGCard *)card completion:(void (^)(UIImage * _Nullable))completion {
+
+    if (!completion) {
+        completion = ^(UIImage *image) {};
+    }
 
     NSURL *imageURL = [NSURL URLWithString:card.image];
     NSData *data = [NSData dataWithContentsOfURL:imageURL];

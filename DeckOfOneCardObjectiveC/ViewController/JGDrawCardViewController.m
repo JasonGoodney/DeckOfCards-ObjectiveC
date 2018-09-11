@@ -9,14 +9,15 @@
 #import "JGDrawCardViewController.h"
 
 @interface JGDrawCardViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *cardImageView;
+
 @property (weak, nonatomic) IBOutlet UIButton *drawACardButton;
-@property (weak, nonatomic) IBOutlet UILabel *valueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *suitLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
 @implementation JGDrawCardViewController
+
+static NSString * const reuseIdentifier = @"cardCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,26 +27,30 @@
 }
 
 - (IBAction)drawCardButtonTapped:(UIButton *)sender {
-    [[JGCardController shared] drawCards:4 completion:^(JGCard * card) {
+    [[JGCardController shared] drawCards:4 completion:^(BOOL success) {
         
-        NSLog(@"%@", card);
-        
-        self.card = card;
-        
-        [[JGCardController shared] fetchCardImage:card fetchImageAction:^(UIImage *image) {
-            NSLog(@"%@", image);
+        if (success) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self->_cardImageView.image = image;
+                [[self collectionView] reloadData];
+                [[self collectionView] scrollToItemAtIndexPath: [NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
             });
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self->_valueLabel.text = card.value;
-            self->_suitLabel.text = card.suit;
-        });
-        
-    
+        }
     }];
+}
+
+
+# pragma UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [[JGCardController shared].cards count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    JGCardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    JGCard *card = [JGCardController shared].cards[indexPath.row];
+    cell.card = card;
+    
+    return cell;
 }
 
 - (void)addShadow:(UIView *)view {
@@ -57,3 +62,4 @@
 }
 
 @end
+

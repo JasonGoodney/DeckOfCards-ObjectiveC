@@ -1,5 +1,5 @@
 //
-//  JGDrawCardViewController.h
+//  JGCardCollectionViewCell.h
 //  DeckOfOneCardObjectiveC
 //
 //  Created by Jason Goodney on 9/11/18.
@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JGCardController.h"
 #import "JGCard.h"
-#import "JGCardCollectionViewCell.h"
+#import "JGCardController.h"
 
-@interface JGDrawCardViewController : UIViewController <UICollectionViewDataSource>
+@interface JGCardCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic) JGCard *card;
 
-- (void) addShadow:(UIView *)view;
+- (void) updateView;
 
 @end

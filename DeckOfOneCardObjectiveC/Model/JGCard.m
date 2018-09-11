@@ -32,10 +32,6 @@ static NSString * const ImageKey = @"image";
 
 - (instancetype)initWithDictionary:(NSDictionary *)cardDictionary {
 
-    //NSMutableArray<NSString *> *abilities = [[NSMutableArray alloc] init];
-    
-    //NSDictionary<NSString *, id> *cardDictionary = dictionary[CardsKey][0];
-    
     if (!cardDictionary[CodeKey] || !cardDictionary[ValueKey] ||
         !cardDictionary[SuitKey] || !cardDictionary[ImageKey]) {
         
