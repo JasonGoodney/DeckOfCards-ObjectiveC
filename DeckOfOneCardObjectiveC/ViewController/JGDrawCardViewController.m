@@ -26,13 +26,13 @@
 }
 
 - (IBAction)drawCardButtonTapped:(UIButton *)sender {
-    [JGCardController drawCards:1 completion:^(JGCard * card) {
+    [[JGCardController shared] drawCards:4 completion:^(JGCard * card) {
         
         NSLog(@"%@", card);
         
         self.card = card;
         
-        [JGCardController fetchCardImage:card fetchImageAction:^(UIImage *image) {
+        [[JGCardController shared] fetchCardImage:card fetchImageAction:^(UIImage *image) {
             NSLog(@"%@", image);
             dispatch_async(dispatch_get_main_queue(), ^{
                 self->_cardImageView.image = image;

@@ -15,10 +15,14 @@ typedef void (^ FetchImageCompletion)(UIImage *image);
 
 @interface JGCardController : NSObject
 
-+ (void) drawCards:(NSInteger)numberOfCards
+@property (nonatomic) NSMutableArray<JGCard *> *cards;
+
++ (JGCardController *)shared;
+
+- (void) drawCards:(NSInteger)numberOfCards
      completion:(void (^_Nullable)(JGCard * _Nullable))completion;
 
-+ (void) fetchCardImage:(JGCard *)card
+- (void) fetchCardImage:(JGCard *)card
        fetchImageAction:(FetchImageCompletion)completion;
 
 @end

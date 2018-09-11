@@ -10,9 +10,20 @@
 
 @implementation JGCardController
 
++ (JGCardController *)shared
+{
+    static JGCardController *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [JGCardController new];
+    });
+    return shared;
+}
+
+
 static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/new/draw/";
 
-+ (void)drawCards:(NSInteger)numberOfCards completion:(void (^)(JGCard * _Nullable))completion {
+- (void)drawCards:(NSInteger)numberOfCards completion:(void (^)(JGCard * _Nullable))completion {
     
     NSString *cardCount =[NSString stringWithFormat:@"%ld", numberOfCards];
     
@@ -43,15 +54,24 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
                 return;
             }
             
-            JGCard *card = [[JGCard alloc] initWithDictionary:dictionary];
+            //JGCard *card = [[JGCard alloc] initWithDictionary:dictionary];
             
+            NSDictionary<NSString *, id> *cardDictionaries = dictionary[@"cards"];
             
-            completion(card);
+            self->_cards = [[NSMutableArray<JGCard *> alloc] init];
+            
+            for (NSDictionary<NSString *, id> *cardDictionary in cardDictionaries) {
+                JGCard *card = [[JGCard alloc] initWithDictionary:cardDictionary];
+               
+                [[JGCardController shared].cards addObject:card];
+                
+            }
+            
         }
     }] resume];
 }
 
-+ (void)fetchCardImage:(JGCard *)card fetchImageAction:(FetchImageCompletion)completion {
+- (void)fetchCardImage:(JGCard *)card fetchImageAction:(FetchImageCompletion)completion {
 
     NSURL *imageURL = [NSURL URLWithString:card.image];
     NSData *data = [NSData dataWithContentsOfURL:imageURL];
