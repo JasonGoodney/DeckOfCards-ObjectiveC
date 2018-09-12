@@ -11,7 +11,7 @@
 #import "JGCard.h"
 #import "JGCardCollectionViewCell.h"
 
-@interface JGDrawCardViewController : UIViewController <UICollectionViewDataSource>
+@interface JGDrawCardViewController : UIViewController <UICollectionViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic) JGCard *card;
 

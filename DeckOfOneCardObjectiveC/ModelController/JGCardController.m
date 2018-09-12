@@ -20,14 +20,17 @@
     return shared;
 }
 
+static NSString * const newDeckURLString = @"https://deckofcardsapi.com/api/deck/new/";
+static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/";
 
-static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/new/draw/";
-
-- (void)drawCards:(NSInteger)numberOfCards completion:(void (^)(BOOL))completion {
+- (void)drawCards:(NSInteger)numberOfCards inDeckId:(NSString *)deckId completion:(void (^)(BOOL))completion {
     
     NSString *cardCount =[NSString stringWithFormat:@"%ld", numberOfCards];
     
-    NSURL *baseURL = [NSURL URLWithString:baseURLString];
+    NSURL *baseURL = [[[NSURL URLWithString:baseURLString]
+                       URLByAppendingPathComponent:deckId]
+                      URLByAppendingPathComponent:@"draw"];
+    
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:baseURL resolvingAgainstBaseURL:YES];
     NSURLQueryItem *countQueryItem = [NSURLQueryItem queryItemWithName:@"count" value:cardCount];
     urlComponents.queryItems = @[countQueryItem];
@@ -38,6 +41,7 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
         
         if (error) {
             NSLog(@"Error in %s: %@, %@", __PRETTY_FUNCTION__, error, error.localizedDescription);
+            completion(false);
             return;
         }
         
@@ -46,15 +50,14 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
         }
         
         if (data) {
+            
             NSDictionary<NSString *, id> *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
             
             if (!dictionary || ![dictionary isKindOfClass:[NSDictionary class]]) {
                 NSLog(@"Error parsing the json: %@", error);
-                completion(nil);
+                completion(false);
                 return;
             }
-            
-            //JGCard *card = [[JGCard alloc] initWithDictionary:dictionary];
             
             NSDictionary<NSString *, id> *cardDictionaries = dictionary[@"cards"];
             
@@ -62,13 +65,15 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
             
             for (NSDictionary<NSString *, id> *cardDictionary in cardDictionaries) {
                 JGCard *card = [[JGCard alloc] initWithDictionary:cardDictionary];
-               
-                [[JGCardController shared].cards addObject:card];
                 
+                [[JGCardController shared].cards addObject:card];
             }
-        completion(YES);
+            
+            completion(YES);
         }
     }] resume];
+
+        
 }
 
 - (void)fetchCardImage:(JGCard *)card completion:(void (^)(UIImage * _Nullable))completion {
@@ -83,6 +88,36 @@ static NSString * const baseURLString = @"https://deckofcardsapi.com/api/deck/ne
     UIImage *cardImage = [UIImage imageWithData:data];
     
     completion(cardImage);
+}
+
+- (void)deck:(void (^)(NSString * _Nullable))completion {
+
+    NSURL *url = [NSURL URLWithString:newDeckURLString];
+    
+    
+    [[[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"Error in %s: %@, %@", __PRETTY_FUNCTION__, error, error.localizedDescription);
+            completion(nil);
+            return;
+        }
+        
+        if (response) {
+            //NSLog(@"%@", response);
+        }
+        
+        if (data) {
+            
+            NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:2 error:&error];
+            
+            if ([jsonDictionary[@"deck_id"] isKindOfClass:[NSString class]]) {
+                completion(jsonDictionary[@"deck_id"]);
+
+            }
+        }
+    
+    }] resume];
 }
 
 

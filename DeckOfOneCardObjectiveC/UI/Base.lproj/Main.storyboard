@@ -21,9 +21,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c9X-oA-zLt">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c9X-oA-zLt">
                                 <rect key="frame" x="0.0" y="20" width="375" height="384"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="384" id="ont-Xc-EeI"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JCQ-zx-HAl">
                                     <size key="itemSize" width="375" height="377"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -86,34 +89,45 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="qSU-IU-KxQ">
-                                <rect key="frame" x="20" y="424" width="335" height="223"/>
+                                <rect key="frame" x="20" y="424" width="335" height="133"/>
                                 <color key="backgroundColor" red="0.52465255438977509" green="0.9837267287" blue="0.53823140068972108" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="223" id="xWF-bE-jbg"/>
+                                    <constraint firstAttribute="height" constant="133" id="vHc-1m-qBp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="37"/>
-                                <state key="normal" title="DRAW A CARD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!">
+                                <state key="normal" title="DRAW CARDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!">
                                     <color key="titleColor" red="1" green="0.0" blue="0.54842071538313153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="drawCardButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ghs-k8-BLq"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4mq-Fb-MaE">
+                                <rect key="frame" x="0.0" y="565" width="375" height="102"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="nD5-Op-XK4"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="0ym-Vf-Wn0"/>
+                                </connections>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="c9X-oA-zLt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9vc-qR-DZH"/>
                             <constraint firstItem="c9X-oA-zLt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BhI-Z1-RUZ"/>
                             <constraint firstItem="qSU-IU-KxQ" firstAttribute="top" secondItem="c9X-oA-zLt" secondAttribute="bottom" constant="20" id="OST-MH-g5f"/>
+                            <constraint firstItem="4mq-Fb-MaE" firstAttribute="top" secondItem="qSU-IU-KxQ" secondAttribute="bottom" constant="8" id="OT4-P2-Qfk"/>
                             <constraint firstItem="qSU-IU-KxQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TcL-xg-5T6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qSU-IU-KxQ" secondAttribute="trailing" constant="20" id="Ueb-aD-NUV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qSU-IU-KxQ" secondAttribute="bottom" constant="20" id="hsP-So-HkA"/>
+                            <constraint firstItem="4mq-Fb-MaE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gbF-qJ-FUV"/>
                             <constraint firstItem="c9X-oA-zLt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qfE-Hn-4Z8"/>
+                            <constraint firstItem="4mq-Fb-MaE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rRv-BA-XZR"/>
+                            <constraint firstItem="4mq-Fb-MaE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="vSb-VW-lBa"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c9X-oA-zLt" secondAttribute="trailing" id="z7O-HD-pT2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cardCountPickerView" destination="4mq-Fb-MaE" id="9VV-z6-3hz"/>
                         <outlet property="collectionView" destination="c9X-oA-zLt" id="xkI-uv-7tE"/>
                         <outlet property="drawACardButton" destination="qSU-IU-KxQ" id="4rT-bx-5Sd"/>
                     </connections>

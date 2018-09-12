@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *drawACardButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIPickerView *cardCountPickerView;
 
 @end
 
@@ -24,17 +25,23 @@ static NSString * const reuseIdentifier = @"cardCell";
     
     _drawACardButton.layer.cornerRadius = 5;
     [self addShadow:_drawACardButton];
+    
+    [JGCardController shared].userCardCount = 52;
 }
 
 - (IBAction)drawCardButtonTapped:(UIButton *)sender {
-    [[JGCardController shared] drawCards:4 completion:^(BOOL success) {
+    
+    [[JGCardController shared] deck:^(NSString *deckId) {
         
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[self collectionView] reloadData];
-                [[self collectionView] scrollToItemAtIndexPath: [NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-            });
-        }
+        [[JGCardController shared] drawCards:[JGCardController shared].userCardCount inDeckId:deckId completion:^(BOOL success) {
+            
+            if (success) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[self collectionView] reloadData];
+                    [[self collectionView] scrollToItemAtIndexPath: [NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+                });
+            }
+        }];
     }];
 }
 
@@ -53,6 +60,16 @@ static NSString * const reuseIdentifier = @"cardCell";
     return cell;
 }
 
+# pragma UIPickerViewDelegate & UIPickerViewDataSource
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 52;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(nonnull UIPickerView *)pickerView {
+    return 1;
+}
+
+
 - (void)addShadow:(UIView *)view {
     view.layer.shadowRadius = 5.0;
     view.layer.shadowOpacity = 0.5;
@@ -60,6 +77,7 @@ static NSString * const reuseIdentifier = @"cardCell";
     view.layer.masksToBounds =  NO;
     
 }
+
 
 @end
 
