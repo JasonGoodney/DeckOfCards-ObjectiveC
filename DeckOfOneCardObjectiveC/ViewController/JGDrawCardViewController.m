@@ -31,9 +31,11 @@ static NSString * const reuseIdentifier = @"cardCell";
 }
 
 - (IBAction)drawCardButtonTapped:(UIButton *)sender {
+    dispatch_group_t group = dispatch_group_create();
     
+    dispatch_group_enter(group);
     [[JGCardController shared] deck:^(NSString *deckId) {
-        
+        dispatch_group_enter(group);
         [[JGCardController shared] drawCards:[JGCardController shared].userCardCount inDeckId:deckId completion:^(BOOL success) {
             
             if (success) {
@@ -42,7 +44,9 @@ static NSString * const reuseIdentifier = @"cardCell";
                     [[self collectionView] scrollToItemAtIndexPath: [NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
                 });
             }
+            dispatch_group_leave(group);
         }];
+        dispatch_group_leave(group);
     }];
 }
 
