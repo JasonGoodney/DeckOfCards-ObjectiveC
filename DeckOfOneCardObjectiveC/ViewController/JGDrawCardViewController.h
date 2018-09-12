@@ -16,5 +16,6 @@
 @property (nonatomic) JGCard *card;
 
 - (void) addShadow:(UIView *)view;
+- (void) updateButtonTitle:(NSInteger)count;
 
 @end

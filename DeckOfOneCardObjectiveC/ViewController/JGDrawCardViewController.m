@@ -26,7 +26,8 @@ static NSString * const reuseIdentifier = @"cardCell";
     _drawACardButton.layer.cornerRadius = 5;
     [self addShadow:_drawACardButton];
     
-    [JGCardController shared].userCardCount = 52;
+    [JGCardController shared].userCardCount = 1;
+    [self updateButtonTitle:[JGCardController shared].userCardCount];
 }
 
 - (IBAction)drawCardButtonTapped:(UIButton *)sender {
@@ -70,12 +71,29 @@ static NSString * const reuseIdentifier = @"cardCell";
 }
 
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    NSInteger cardCount = row + 1;
+    NSLog(@"%ld", cardCount);
+    [JGCardController shared].userCardCount = cardCount;
+    [self updateButtonTitle:cardCount];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [NSString stringWithFormat:@"%ld", row + 1 ];
+}
+
+
 - (void)addShadow:(UIView *)view {
     view.layer.shadowRadius = 5.0;
     view.layer.shadowOpacity = 0.5;
     view.layer.shadowOffset = CGSizeMake(0.5, 0.4);
     view.layer.masksToBounds =  NO;
     
+}
+
+- (void)updateButtonTitle:(NSInteger)count {
+    NSString *title = [NSString stringWithFormat:@"DRAW %ld CARDS", count];
+    [[self drawACardButton] setTitle:title forState:UIControlStateNormal];
 }
 
 
