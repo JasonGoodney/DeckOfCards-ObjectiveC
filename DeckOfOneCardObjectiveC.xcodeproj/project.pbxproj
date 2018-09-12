@@ -15,6 +15,7 @@
 		D728A8F72147F8FB0073301C /* JGCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D728A8F62147F8FB0073301C /* JGCard.m */; };
 		D728A8FA2147F9050073301C /* JGCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = D728A8F92147F9050073301C /* JGCardController.m */; };
 		D728A8FD2147FAEE0073301C /* JGDrawCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D728A8FC2147FAEE0073301C /* JGDrawCardViewController.m */; };
+		D728A95421486E990073301C /* JGCardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D728A95321486E990073301C /* JGCardCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		D728A8F92147F9050073301C /* JGCardController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JGCardController.m; sourceTree = "<group>"; };
 		D728A8FB2147FAEE0073301C /* JGDrawCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JGDrawCardViewController.h; sourceTree = "<group>"; };
 		D728A8FC2147FAEE0073301C /* JGDrawCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JGDrawCardViewController.m; sourceTree = "<group>"; };
+		D728A95221486E990073301C /* JGCardCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JGCardCollectionViewCell.h; sourceTree = "<group>"; };
+		D728A95321486E990073301C /* JGCardCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JGCardCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,7 @@
 				D728A8F42147F8D20073301C /* UI */,
 				D728A8F12147F8C00073301C /* Model */,
 				D728A8F32147F8C00073301C /* ModelController */,
+				D728A95521486EA10073301C /* View */,
 				D728A8F22147F8C00073301C /* ViewController */,
 				D728A8F02147F8C00073301C /* Resources */,
 			);
@@ -119,6 +123,15 @@
 				D728A8E02147F8790073301C /* Main.storyboard */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D728A95521486EA10073301C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D728A95221486E990073301C /* JGCardCollectionViewCell.h */,
+				D728A95321486E990073301C /* JGCardCollectionViewCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D728A8FA2147F9050073301C /* JGCardController.m in Sources */,
+				D728A95421486E990073301C /* JGCardCollectionViewCell.m in Sources */,
 				D728A8EA2147F87B0073301C /* main.m in Sources */,
 				D728A8F72147F8FB0073301C /* JGCard.m in Sources */,
 				D728A8FD2147FAEE0073301C /* JGDrawCardViewController.m in Sources */,

@@ -10,15 +10,20 @@
 #import "JGCard.h"
 #import <UIKit/UIKit.h>
 
-typedef void (^ DrawCardCompletion)(NSArray<JGCard *> *cards, NSError *error);
-typedef void (^ FetchImageCompletion)(UIImage *image);
-
 @interface JGCardController : NSObject
 
-+ (void) drawCards:(NSInteger)numberOfCards
-     completion:(void (^_Nullable)(JGCard * _Nullable))completion;
+@property (nonatomic) NSMutableArray<JGCard *> *cards;
+@property (nonatomic) NSInteger userCardCount;
 
-+ (void) fetchCardImage:(JGCard *)card
-       fetchImageAction:(FetchImageCompletion)completion;
++ (JGCardController *)shared;
+
+
+- (void) drawCards:(NSInteger)numberOfCards inDeckId:(NSString *)deckId
+     completion:(void (^_Nullable)(BOOL success))completion;
+
+- (void) fetchCardImage:(JGCard *)card
+       completion:(void (^_Nullable)(UIImage *_Nullable))completion;
+
+- (void)deck:(void (^_Nullable)(NSString *_Nullable))completion;
 
 @end

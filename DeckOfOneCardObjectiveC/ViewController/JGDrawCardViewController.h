@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "JGCardController.h"
 #import "JGCard.h"
+#import "JGCardCollectionViewCell.h"
 
-@interface JGDrawCardViewController : UIViewController
+@interface JGDrawCardViewController : UIViewController <UICollectionViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic) JGCard *card;
 
 - (void) addShadow:(UIView *)view;
+- (void) updateButtonTitle:(NSInteger)count;
 
 @end
